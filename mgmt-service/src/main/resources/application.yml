@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: feature-management-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/feature_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 3000
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ffmgr-cache
+      key-deserializer: org.springframework.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.ffmgr.dto
+        spring.json.value.default.type: com.ffmgr.dto.FlagChangeEvent
+      auto-offset-reset: earliest
+
+jwt:
+  secret: change-me-to-a-secure-secret-key-at-least-256-bits-long
+
+kafka:
+  topic:
+    flag-changes: feature-flag-changes
+
+snapshot:
+  refresh-interval-ms: 300000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
