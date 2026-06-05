@@ -284,16 +284,6 @@ The local evaluation logic is identical to the Management Service, based on the 
 
 ## 5. Observability
 
-### Structured Logging
-
-```json
-{ "event": "flag_updated", "flag_key": "checkout-v2", "changed_by": "admin@co", "diff": { "enabled": [false, true] } }
-{ "event": "evaluation", "flag_key": "checkout-v2", "context": {...}, "result": true, "reason": "rule_match" }
-{ "event": "redis_miss", "flag_key": "checkout-v2", "latency_ms": 12 }
-{ "event": "cdc_lag", "lag_ms": 350, "consumer_instance": "consumer-0" }
-{ "event": "consumer_failover", "from": "consumer-0", "to": "consumer-1" }
-```
-
 ### Metrics (Prometheus)
 
 | Metric | Type | Labels |
